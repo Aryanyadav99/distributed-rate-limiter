@@ -1,0 +1,38 @@
+public void save(String key,String value){
+//        redisTemplate.opsForValue().set(key,value);
+//    }
+//    public String get(String key){
+//        String res=(String)redisTemplate.opsForValue().get(key);
+//        return res;
+//    }
+//
+//    public void saveWithTime(String key, String val, long seconds){
+//        redisTemplate.opsForValue().set(
+//                key,
+//                val,
+//                Duration.ofSeconds(seconds)
+//        );
+//    }
+//    public Long getTTL(String key) {
+//        return redisTemplate.getExpire(key);
+//    }
+@PostMapping("/save")
+    public String save() {
+        redisRateLimiter.save("name", "Aryan");
+        return "Saved";
+    }
+
+    @GetMapping("/get")
+    public String get() {
+        return redisRateLimiter.get("name");
+    }
+
+    @PostMapping("/saveWithTime")
+    public void saveWithTime(){
+        redisRateLimiter.saveWithTime("name","Chomu",30);
+    }
+
+    @GetMapping("/ttl")
+    public long ttl(){
+        return redisRateLimiter.getTTL("name");
+    }

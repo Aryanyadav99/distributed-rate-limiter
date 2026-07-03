@@ -1,13 +1,16 @@
 package com.aryan.rate_limiter.service.serviceImpl;
 
-import com.aryan.rate_limiter.algorithm.tokenBucket.RateLimiter;
+import com.aryan.rate_limiter.ratelimiter.RedisRateLimiter_Core;
 import com.aryan.rate_limiter.service.RateLimiterService;
-import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RateLimiterImpl implements RateLimiterService {
+
+    private final RedisRateLimiter_Core rateLimiter;
 
     @Value("${rate-limit.capacity}")
     private long capacity;
@@ -15,15 +18,12 @@ public class RateLimiterImpl implements RateLimiterService {
     @Value("${rate-limit.refill-rate}")
     private double refillRate;
 
-    private RateLimiter rateLimiter;
-
-    @PostConstruct
-    public void init() {
-        rateLimiter = new RateLimiter(capacity, refillRate);
-    }
-
     @Override
     public boolean allowRequest(String userId) {
-        return rateLimiter.allowRequest(userId);
+        return rateLimiter.allowRequest(
+                "rate-limit:" + userId,
+                capacity,
+                refillRate
+        );
     }
 }
