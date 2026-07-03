@@ -44,7 +44,8 @@ public class Main {
         // Test 3 : Bucket Refill
         // ===========================
 
-        // Consume all tokens
+         //Consume all tokens
+        /*
         for (int i = 1; i <= 5; i++) {
             System.out.println("Request " + i + " -> " + tb.allowRequest());
         }
@@ -61,5 +62,53 @@ public class Main {
             System.out.println("Request " + i + " -> " + tb.allowRequest());
         }
 
+        */
+
+
+        // for multiple users
+
+
+        RateLimiter limiter = new RateLimiter(5, 2);
+
+        // Dholu exhausts his bucket
+        System.out.println("Dholu Requests");
+        for (int i = 1; i <= 6; i++) {
+            System.out.println(
+                    "Request " + i + " -> " +
+                            limiter.allowRequest("Dholu")
+            );
+        }
+
+        System.out.println();
+
+        // Bholu has a fresh bucket
+        System.out.println("Bholu Requests");
+        for (int i = 1; i <= 6; i++) {
+            System.out.println(
+                    "Request " + i + " -> " +
+                            limiter.allowRequest("Bholu")
+            );
+        }
+
+        System.out.println();
+
+        // Dholu still has no tokens
+        System.out.println("Dholu Again");
+        System.out.println(
+                "Request -> " +
+                        limiter.allowRequest("Dholu")
+        );
+
+        System.out.println();
+
+        // Kalia is a completely new user
+        System.out.println("Kalia Requests");
+        for (int i = 1; i <= 3; i++) {
+            System.out.println(
+                    "Request " + i + " -> " +
+                            limiter.allowRequest("Kalia")
+            );
+        }
     }
 }
+
