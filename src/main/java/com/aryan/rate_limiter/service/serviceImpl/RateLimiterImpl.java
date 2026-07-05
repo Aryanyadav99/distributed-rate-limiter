@@ -1,5 +1,6 @@
 package com.aryan.rate_limiter.service.serviceImpl;
 
+import com.aryan.rate_limiter.ratelimiter.RedisRateLimiter;
 import com.aryan.rate_limiter.ratelimiter.RedisRateLimiter_Core;
 import com.aryan.rate_limiter.service.RateLimiterService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RateLimiterImpl implements RateLimiterService {
 
-    private final RedisRateLimiter_Core rateLimiter;
+    private final RedisRateLimiter rateLimiter;
 
     @Value("${rate-limit.capacity}")
     private long capacity;
