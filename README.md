@@ -167,25 +167,25 @@ A concurrent stress test was implemented using:
 100 concurrent requests were fired against a bucket with:
 
 ```
-
 Capacity = 10
 Refill Rate = 0
-
 ```
 
-### Result
+### Before Lua
 
 ```
+Allowed  : 14
+Rejected : 86
+```
 
+### After Lua
+
+```
 Allowed  : 10
 Rejected : 90
-
 ```
 
-This verified that Lua scripting successfully removed race conditions.
-
----
-
+This verified that executing the Token Bucket algorithm atomically using Redis Lua scripting successfully eliminated race conditions.
 # 📁 Project Structure
 
 ```
